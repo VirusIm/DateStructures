@@ -164,6 +164,7 @@ void main()
 {
 	setlocale(0, "");
 	int n;		//Количество элементов
+#ifdef ForwardListOne
 	std::cout << "Введите количество элементов: ";
 	std::cin >> n;
 	ForwardList fl;
@@ -171,8 +172,7 @@ void main()
 	{
 		fl.push_front(rand() % 100);
 	}
-	fl.print();
-#ifdef ForwardListOne
+	//fl.print();
 	std::cout << delimiter;
 	std::cout << "PUSH FRONT:\n" << std::endl;
 	fl.push_front(111);
