@@ -2,7 +2,8 @@
 
 #define tab "\t"
 #define delimiter "\n===============================================================\n"
-#define ForwardListOne
+//#define ForwardListOne
+//#define ForwardListTwo
 
 
 class Element
@@ -46,11 +47,6 @@ public:
 		std::cout << "LConstructor:\t" << this << std::endl;
 	}
 
-	~ForwardList()
-	{
-		std::cout << "FDestructor:\t" << this << std::endl;
-	}
-	friend class Element;
 	//					Добавление элементов в списков
 	//				Methods:
 	void push_front(int Data)	//Добавляет элемент в начало списка
@@ -109,7 +105,7 @@ public:
 			std::cout << "Error 404: Out of range.\n";
 			return;
 		}
-		Element* Temp = Head;	//Итератор
+		Element* Temp = Head;	//Создаём итератор
 		for (int i = 0; i < index - 1; i++)
 		{
 			Temp = Temp->pNext;
@@ -119,8 +115,33 @@ public:
 		Temp->pNext = New;
 		size++;
 	}
+	void erase(int index)
+	{
+		if (index == 0)
+		{
+			pop_front();
+			return;
+		}
+		if (index >= size)
+		{
+			std::cout << "Error 444: Out of range.\n";
+			return;
+		}
+		Element* Temp = Head;	//Создаём итератор.
+		for (int i = 0; i < index - 1; i++)Temp = Temp->pNext;
+		Element* buffer = Temp->pNext;
+		Temp->pNext = Temp->pNext->pNext;
+		delete buffer;
+		size--;
+	}
 
 
+	~ForwardList()
+	{
+		while (Head)pop_front();
+		std::cout << "LDestructor:\t" << this << std::endl;
+	}
+	friend class Element;
 
 	void print()
 	{
@@ -142,7 +163,6 @@ public:
 void main()
 {
 	setlocale(0, "");
-#ifdef ForwardListOne
 	int n;		//Количество элементов
 	std::cout << "Введите количество элементов: ";
 	std::cin >> n;
@@ -151,6 +171,8 @@ void main()
 	{
 		fl.push_front(rand() % 100);
 	}
+	fl.print();
+#ifdef ForwardListOne
 	std::cout << delimiter;
 	std::cout << "PUSH FRONT:\n" << std::endl;
 	fl.push_front(111);
@@ -175,14 +197,25 @@ void main()
 	std::cout << "Введите значени добавляемого значения: "; std::cin >> Data;
 	fl.insert(index, Data);
 	fl.print();
+	std::cout << delimiter << std::endl;
+	std::cout << "ERASE: " << std::endl;
+	std::cout << "Введите интекс удаляемого элемента: "; std::cin >> index;
+	fl.erase(index);
+	fl.print();
+
+
 #endif // ForwardListOne
 
+
+
+
+
+#ifdef ForwardListTwo
 	ForwardList fl2;
 	fl2.push_back(1);
 	fl2.push_back(2);
 	fl2.push_back(3);
 	fl2.print();
-
-
+#endif // ForwardListTwo}
 
 }
